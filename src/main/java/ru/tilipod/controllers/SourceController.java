@@ -3,21 +3,26 @@ package ru.tilipod.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.tilipod.services.sourceservices.exceptions.EmptySourceException;
-import ru.tilipod.services.sourceservices.exceptions.UnsupportedExtensionException;
-import ru.tilipod.services.sourceservices.imageservices.ImageService;
+import ru.tilipod.services.sources.exceptions.EmptySourceException;
+import ru.tilipod.services.sources.exceptions.UnsupportedExtensionException;
+import ru.tilipod.services.sources.images.ImageService;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.Callable;
 
+/**
+ * REST-контроллер для работы с ресурсами сервера. Отвечает за работу с файлами пользователей
+ * @author Tilipod
+ */
 @RestController
-@RequestMapping("/source")
+@RequestMapping("/sources")
 public class SourceController {
 
     private final Logger logger = LoggerFactory.getLogger(SourceController.class);
@@ -28,15 +33,16 @@ public class SourceController {
         this.imageService = imageService;
     }
 
-    /*@GetMapping("/new/image")
-    public String jpgImage() {
-        return "newImage";
-    }*/
-
-    @PostMapping(value = "/new/image",
+    /**
+     * Запрос на добавление JPG-картинки
+     * @param image Загружаемая картинка
+     * @author Tilipod
+     */
+    @PostMapping(value = "/images",
                  consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
                  produces = MediaType.APPLICATION_JSON_VALUE)
-    public Callable<ResponseEntity> newJpgImage (@RequestPart("file") MultipartFile image) {
+    @Order
+    public Callable<ResponseEntity> newJpgImage (@RequestParam MultipartFile image) {
         return () -> {
             try {
                 URI uriImage = imageService.uploadJpg(image);

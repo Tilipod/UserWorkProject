@@ -1,0 +1,7 @@
+POST http://localhost:8080/users/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "isOnline": false
+}

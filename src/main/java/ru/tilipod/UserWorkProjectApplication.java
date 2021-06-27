@@ -2,21 +2,19 @@ package ru.tilipod;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
-import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
 import org.springframework.util.unit.DataSize;
-import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
 
-import javax.servlet.MultipartConfigElement;
-
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, MultipartAutoConfiguration.class })
+@SpringBootApplication(exclude = {MultipartAutoConfiguration.class })
 public class UserWorkProjectApplication {
 
+	/**
+	 * Бин для чтения загружаемых файлов
+	 * @author Tilipod
+	 */
 	@Bean
 	public CommonsMultipartResolver multipartResolver() {
 		CommonsMultipartResolver multipart = new CommonsMultipartResolver();
@@ -28,8 +26,11 @@ public class UserWorkProjectApplication {
 		return multipart;
 	}
 
+	/**
+	 * Бин для распознавания пришедших на сервер файлов
+	 * @author Tilipod
+	 */
 	@Bean
-	@Order(0)
 	public MultipartFilter multipartFilter() {
 		MultipartFilter multipartFilter = new MultipartFilter();
 		multipartFilter.setMultipartResolverBeanName("multipartResolver");

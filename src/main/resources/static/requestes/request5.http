@@ -1,0 +1,8 @@
+GET http://localhost:8080/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "isOnline": false,
+  "timestamp": "2021-06-27 18:04:42.39"
+}
